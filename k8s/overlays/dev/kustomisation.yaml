@@ -1,0 +1,24 @@
+# k8s/overlays/dev/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: microshop-dev
+
+bases:
+  - ../../base
+
+namePrefix: dev-
+
+replicas:
+  - name: product-service
+    count: 1
+  - name: order-service
+    count: 1
+  - name: mongodb
+    count: 1
+
+configMapGenerator:
+  - name: product-service-config
+    behavior: merge
+    literals:
+      - log_level=debug
